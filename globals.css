@@ -1,7 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --navy: #1B263B;
+  --teal: #31B2BF;
+  --slate: #E0E1DD;
+  --charcoal: #415A77;
+}
+
 body {
   font-family: 'Questrial', sans-serif;
+  background-color: var(--slate);
+  color: var(--charcoal);
 }
