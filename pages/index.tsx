@@ -116,7 +116,7 @@ export default function LandingPage() {
       <section className="bg-navy py-32 px-8 text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-teal to-transparent opacity-30" />
         <div className="max-w-6xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tighter">THE MEDiVi COMPLETE SYSTEM</h2>
+          <h2 className="text-4xl md:text-6xl mb-6 tracking-tighter">THE MEDiVi COMPLETE SYSTEM</h2>
           <p className="text-teal font-bold mb-16 max-w-2xl mx-auto text-sm uppercase tracking-[0.3em]">Unified cellular, hormonal & circulatory optimization</p>
           
           <div className="grid lg:grid-cols-3 gap-8">
