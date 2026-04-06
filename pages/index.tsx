@@ -34,11 +34,26 @@ export default function LandingPage() {
   const systemPrices = { gbp: ['99.99', '169.99', '289.99'], eur: ['119.99', '204.99', '349.99'] };
   const currSym = currency === 'gbp' ? '£' : '€';
 
-  const handleWaitlist = (e: React.FormEvent) => {
+const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+
+  const handleWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`Success! ${email} has been added to the MEDiVi Protocol waitlist.`);
-    setShowWaitlist(false);
-    setEmail('');
+    setStatus('submitting');
+
+    const response = await fetch('https://formspree.io/f/mdapyqyg', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
+
+    if (response.ok) {
+      setStatus('success');
+      setTimeout(() => {
+        setShowWaitlist(false);
+        setStatus('idle');
+        setEmail('');
+      }, 3000);
+    }
   };
 
   return (
@@ -54,17 +69,33 @@ export default function LandingPage() {
             <h3 className="text-3xl font-bold text-navy mb-4 leading-tight">Join the Protocol</h3>
             <p className="text-charcoal mb-8 opacity-80">Manufacturing is underway in Belfast. Join the waitlist for early access and launch-day pricing.</p>
             <form onSubmit={handleWaitlist} className="space-y-4">
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
-                required
-                className="w-full px-6 py-4 rounded-xl border border-slate focus:border-teal outline-none transition-all"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button type="submit" className="w-full bg-navy text-white py-4 rounded-xl font-bold hover:bg-teal transition-all">SECURE PRIORITY ACCESS</button>
-              <button type="button" onClick={() => setShowWaitlist(false)} className="text-xs text-charcoal/50 uppercase tracking-widest font-bold">Close</button>
-            </form>
+  {status === 'success' ? (
+    <div className="py-8 animate-pulse text-teal font-bold uppercase tracking-widest text-sm">
+      PROTOCOL ACCESS SECURED. CHECK YOUR INBOX.
+    </div>
+  ) : (
+    <>
+      <input 
+        type="email" 
+        name="email"
+        placeholder="Enter your email" 
+        required
+        className="w-full px-6 py-4 rounded-xl border border-slate focus:border-teal outline-none transition-all"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        disabled={status === 'submitting'}
+      />
+      <button 
+        type="submit" 
+        disabled={status === 'submitting'}
+        className="w-full bg-navy text-white py-4 rounded-xl font-bold hover:bg-teal transition-all disabled:opacity-50"
+      >
+        {status === 'submitting' ? 'VERIFYING...' : 'SECURE PRIORITY ACCESS'}
+      </button>
+    </>
+  )}
+  <button type="button" onClick={() => setShowWaitlist(false)} className="text-xs text-charcoal/50 uppercase tracking-widest font-bold">Close</button>
+</form>
           </div>
         </div>
       )}
