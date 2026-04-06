@@ -170,7 +170,7 @@ export default function LandingPage() {
               <div key={tier} className="bg-white/5 backdrop-blur-xl p-12 rounded-[3rem] border border-white/10 flex flex-col group hover:bg-white/10 transition-all">
                 <p className="text-[10px] font-bold tracking-[0.3em] mb-6 text-teal uppercase">{systemPrices[currency][i].label}</p>
                 <div className="mb-10 text-left">
-                    <p className="text-6xl font-bold tracking-tighter">
+                    <p className="text-6xl font-medium tracking-tighter">
                       {currSym}{systemPrices[currency][i].mo || systemPrices[currency][i].total}
                       {systemPrices[currency][i].mo && <span className="text-lg font-normal opacity-30">/mo</span>}
                     </p>
