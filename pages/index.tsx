@@ -83,7 +83,7 @@ export default function LandingPage() {
       {/* Hero */}
       <header className="py-24 text-center px-6">
         <div className="inline-block px-4 py-1 bg-teal/10 text-teal rounded-full text-xs font-bold tracking-[0.2em] mb-6 uppercase">Currently in Production • Belfast, NI</div>
-        <h1 className="text-5xl md:text-8xl font-bold text-navy max-w-5xl mx-auto leading-[0.9] tracking-tighter">
+        <h1 className="text-5xl md:text-8xl font-medium text-navy max-w-5xl mx-auto leading-[0.9] tracking-tighter">
           Healthcare for men who <span className="text-teal italic">expect more</span>
         </h1>
         <p className="mt-10 text-lg text-charcoal opacity-70 uppercase tracking-[0.4em] max-w-2xl mx-auto leading-relaxed">The New Standard in Clinical Grade Male Protocols</p>
