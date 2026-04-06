@@ -94,7 +94,7 @@ export default function LandingPage() {
         {products.map((p) => (
           <div key={p.id} className="bg-white rounded-[3rem] p-10 shadow-xl flex flex-col items-center border border-transparent hover:border-teal/20 transition-all group">
             <div className="relative mb-10">
-              <img src={p.img} alt={p.name} className="h-80 w-auto object-contain transition-all duration-700 group-hover:scale-105 group-hover:-rotate-2" />
+              <img src={p.img} alt={p.name} className="h-80 w-auto object-contain transition-all duration-700 group-hover:scale-105" />
               <div className="absolute -bottom-4 bg-navy text-white text-[10px] font-bold px-4 py-1 rounded-full tracking-widest">COMING SOON</div>
             </div>
             <h2 className="text-2xl font-bold text-navy text-center uppercase tracking-tight">{p.name}</h2>
@@ -116,7 +116,7 @@ export default function LandingPage() {
       <section className="bg-navy py-32 px-8 text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-teal to-transparent opacity-30" />
         <div className="max-w-6xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tighter uppercase italic">The MEDiVi System</h2>
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tighter">THE MEDiVi COMPLETE SYSTEM</h2>
           <p className="text-teal font-bold mb-16 max-w-2xl mx-auto text-sm uppercase tracking-[0.3em]">Unified cellular, hormonal & circulatory optimization</p>
           
           <div className="grid lg:grid-cols-3 gap-8">
