@@ -3,6 +3,8 @@ import Head from 'next/head';
 
 export default function LandingPage() {
   const [currency, setCurrency] = useState<'gbp' | 'eur'>('gbp');
+  const [showWaitlist, setShowWaitlist] = useState(false);
+  const [email, setEmail] = useState('');
 
   const products = [
     {
@@ -10,65 +12,99 @@ export default function LandingPage() {
       name: 'Hormone Support',
       formula: 'Ashwagandha + Zinc',
       img: '/hormone.png',
-      prices: { gbp: ['44.99', '79.99', '139.99'], eur: ['54.99', '94.99', '164.99'] }
+      // Tweaked: 12-month tier is now a better deal (approx 20% off monthly)
+      prices: { gbp: ['44.99', '74.99', '129.99'], eur: ['54.99', '89.99', '154.99'] }
     },
     {
       id: 'circulation',
       name: 'Circulation Support',
       formula: 'Beetroot + L-Citrulline',
       img: '/circulation.png',
-      prices: { gbp: ['39.99', '69.99', '119.99'], eur: ['47.99', '84.99', '144.99'] }
+      prices: { gbp: ['39.99', '64.99', '109.99'], eur: ['47.99', '79.99', '134.99'] }
     },
     {
       id: 'cellular',
       name: 'Cellular Support',
       formula: 'Vitamin E + Selenium',
       img: '/cellular.png',
-      prices: { gbp: ['34.99', '59.99', '99.99'], eur: ['42.99', '72.99', '119.99'] }
+      prices: { gbp: ['34.99', '54.99', '89.99'], eur: ['42.99', '64.99', '109.99'] }
     }
   ];
 
-  const systemPrices = { gbp: ['99.99', '179.99', '299.99'], eur: ['119.99', '214.99', '359.99'] };
+  const systemPrices = { gbp: ['99.99', '169.99', '289.99'], eur: ['119.99', '204.99', '349.99'] };
   const currSym = currency === 'gbp' ? '£' : '€';
 
+  const handleWaitlist = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert(`Success! ${email} has been added to the MEDiVi Protocol waitlist.`);
+    setShowWaitlist(false);
+    setEmail('');
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-slate">
       <Head>
-        <title>MEDiVi | Men's Healthcare</title>
+        <title>MEDiVi | Modern Men's Healthcare</title>
       </Head>
 
+      {/* Waitlist Modal */}
+      {showWaitlist && (
+        <div className="fixed inset-0 bg-navy/90 backdrop-blur-md z-[100] flex items-center justify-center p-6">
+          <div className="bg-white p-10 rounded-[2.5rem] max-w-md w-full shadow-2xl text-center">
+            <h3 className="text-3xl font-bold text-navy mb-4 leading-tight">Join the Protocol</h3>
+            <p className="text-charcoal mb-8 opacity-80">Manufacturing is underway in Belfast. Join the waitlist for early access and launch-day pricing.</p>
+            <form onSubmit={handleWaitlist} className="space-y-4">
+              <input 
+                type="email" 
+                placeholder="Enter your email" 
+                required
+                className="w-full px-6 py-4 rounded-xl border border-slate focus:border-teal outline-none transition-all"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button type="submit" className="w-full bg-navy text-white py-4 rounded-xl font-bold hover:bg-teal transition-all">SECURE PRIORITY ACCESS</button>
+              <button type="button" onClick={() => setShowWaitlist(false)} className="text-xs text-charcoal/50 uppercase tracking-widest font-bold">Close</button>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Navigation */}
-      <nav className="bg-white py-6 px-10 flex justify-between items-center shadow-sm sticky top-0 z-50">
+      <nav className="bg-white/80 backdrop-blur-md py-6 px-10 flex justify-between items-center shadow-sm sticky top-0 z-50">
         <div className="text-3xl font-bold tracking-tighter text-navy uppercase">
           MED<span className="text-teal">iVi</span>
         </div>
         <div className="flex items-center gap-6">
-          <button onClick={() => setCurrency('gbp')} className={`text-xs font-bold ${currency === 'gbp' ? 'text-teal border-b-2 border-teal' : 'text-navy'}`}>UK/NI (£)</button>
-          <button onClick={() => setCurrency('eur')} className={`text-xs font-bold ${currency === 'eur' ? 'text-teal border-b-2 border-teal' : 'text-navy'}`}>ROI (€)</button>
+          <button onClick={() => setCurrency('gbp')} className={`text-xs font-bold transition-all ${currency === 'gbp' ? 'text-teal border-b-2 border-teal' : 'text-navy/40'}`}>UK/NI (£)</button>
+          <button onClick={() => setCurrency('eur')} className={`text-xs font-bold transition-all ${currency === 'eur' ? 'text-teal border-b-2 border-teal' : 'text-navy/40'}`}>ROI (€)</button>
         </div>
       </nav>
 
       {/* Hero */}
       <header className="py-24 text-center px-6">
-        <h1 className="text-5xl md:text-7xl font-bold text-navy max-w-4xl mx-auto leading-[1.1]">
-          Men’s healthcare, built for men who <span className="text-teal italic">expect more</span>
+        <div className="inline-block px-4 py-1 bg-teal/10 text-teal rounded-full text-xs font-bold tracking-[0.2em] mb-6 uppercase">Currently in Production • Belfast, NI</div>
+        <h1 className="text-5xl md:text-8xl font-bold text-navy max-w-5xl mx-auto leading-[0.9] tracking-tighter">
+          Healthcare for men who <span className="text-teal italic">expect more</span>
         </h1>
-        <p className="mt-8 text-xl text-charcoal opacity-80 uppercase tracking-widest">Clinical Grade Protocols</p>
+        <p className="mt-10 text-lg text-charcoal opacity-70 uppercase tracking-[0.4em] max-w-2xl mx-auto leading-relaxed">The New Standard in Clinical Grade Male Protocols</p>
       </header>
 
-      {/* Product Cards */}
-      <section className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 px-8 pb-32">
+      {/* Product Grid */}
+      <section className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 px-8 pb-32">
         {products.map((p) => (
-          <div key={p.id} className="bg-white rounded-[2rem] p-10 shadow-xl flex flex-col items-center border border-slate/50 hover:border-teal/30 transition-all">
-            <img src={p.img} alt={p.name} className="h-72 w-auto object-contain mb-8 hover:scale-105 transition-transform" />
+          <div key={p.id} className="bg-white rounded-[3rem] p-10 shadow-xl flex flex-col items-center border border-transparent hover:border-teal/20 transition-all group">
+            <div className="relative mb-10">
+              <img src={p.img} alt={p.name} className="h-80 w-auto object-contain transition-all duration-700 group-hover:scale-105 group-hover:-rotate-2" />
+              <div className="absolute -bottom-4 bg-navy text-white text-[10px] font-bold px-4 py-1 rounded-full tracking-widest">COMING SOON</div>
+            </div>
             <h2 className="text-2xl font-bold text-navy text-center uppercase tracking-tight">{p.name}</h2>
-            <p className="text-teal font-bold text-sm mb-10 tracking-widest uppercase">{p.formula}</p>
+            <p className="text-teal font-bold text-xs mb-12 tracking-[0.2em] uppercase">{p.formula}</p>
             
             <div className="w-full space-y-3">
               {['3-Month', '6-Month', '12-Month'].map((tier, i) => (
-                <button key={tier} className="w-full py-4 px-6 rounded-xl border border-slate flex justify-between font-bold hover:bg-navy hover:text-white transition group">
-                  <span>{tier}</span>
-                  <span className="text-teal group-hover:text-white">{currSym}{p.prices[currency][i]}</span>
+                <button key={tier} onClick={() => setShowWaitlist(true)} className="w-full py-5 px-6 rounded-2xl border border-slate flex justify-between font-bold hover:bg-slate/30 transition text-sm group/btn">
+                  <span className="text-navy/60 group-hover/btn:text-navy">{tier}</span>
+                  <span className="text-teal">{currSym}{p.prices[currency][i]}</span>
                 </button>
               ))}
             </div>
@@ -76,31 +112,46 @@ export default function LandingPage() {
         ))}
       </section>
 
-      {/* Bundle System */}
-      <section className="bg-navy py-24 px-8 text-white">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tighter">THE MEDiVi COMPLETE SYSTEM</h2>
-          <p className="text-slate/70 mb-16 max-w-2xl mx-auto text-lg uppercase tracking-widest">Total daily support for the modern man</p>
+      {/* System Bundle */}
+      <section className="bg-navy py-32 px-8 text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-teal to-transparent opacity-30" />
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tighter uppercase italic">The MEDiVi System</h2>
+          <p className="text-teal font-bold mb-16 max-w-2xl mx-auto text-sm uppercase tracking-[0.3em]">Unified cellular, hormonal & circulatory optimization</p>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-8">
             {['3-Month System', '6-Month System', '12-Month System'].map((tier, i) => (
-              <div key={tier} className="bg-charcoal/30 backdrop-blur-md p-10 rounded-3xl border border-white/10 flex flex-col">
-                <p className="text-xs font-bold tracking-[0.2em] mb-4 opacity-60 uppercase">{tier}</p>
-                <p className="text-5xl font-bold mb-10 tracking-tight">{currSym}{systemPrices[currency][i]}</p>
-                <button className="bg-teal hover:bg-white hover:text-navy text-white w-full py-5 rounded-2xl font-black transition-all transform active:scale-95">ADD TO BASKET</button>
-                {i >= 1 && <p className="mt-6 text-[10px] font-bold tracking-[0.3em] text-teal animate-pulse">** FREE SHIPPING INCLUDED **</p>}
+              <div key={tier} className="bg-white/5 backdrop-blur-xl p-12 rounded-[3rem] border border-white/10 flex flex-col group hover:bg-white/10 transition-all">
+                <p className="text-[10px] font-bold tracking-[0.3em] mb-6 text-teal uppercase">The Complete Protocol</p>
+                <div className="mb-10 text-left">
+                    <p className="text-xs opacity-50 uppercase tracking-widest mb-1">{tier}</p>
+                    <p className="text-6xl font-bold tracking-tighter">{currSym}{systemPrices[currency][i]}</p>
+                    <div className="mt-4 inline-flex items-center gap-2 text-[10px] font-bold text-teal tracking-widest">
+                        <span className="h-1 w-1 bg-teal rounded-full animate-pulse" />
+                        FREE SHIPPING INCLUDED
+                    </div>
+                </div>
+                <button onClick={() => setShowWaitlist(true)} className="bg-white text-navy w-full py-5 rounded-2xl font-black tracking-widest uppercase hover:bg-teal hover:text-white transition-all transform active:scale-95 text-xs">Join the Waitlist</button>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-20 text-center px-6 bg-slate">
-        <div className="text-sm tracking-[0.5em] font-bold mb-8 opacity-40">MEDiVi HEALTHCARE</div>
-        <div className="max-w-2xl mx-auto text-[10px] uppercase leading-relaxed opacity-40">
-          medivi.co.uk | medivi.ie <br />
-          These products are food supplements. Free shipping on 6/12 month systems to NI, UK, and ROI.
+      {/* Quality Footer */}
+      <footer className="py-24 text-center px-6 bg-slate border-t border-navy/5">
+        <div className="text-3xl font-bold tracking-tighter text-navy mb-12 opacity-20 uppercase">MEDiVi</div>
+        <div className="max-w-3xl mx-auto space-y-8">
+            <div className="flex justify-center gap-12 text-[10px] font-bold tracking-[0.2em] text-navy/40 uppercase">
+                <span>Lab Tested</span>
+                <span>Belfast Made</span>
+                <span>Clinical Grade</span>
+            </div>
+            <p className="text-[10px] uppercase leading-loose opacity-30 tracking-widest px-10">
+                MEDiVi products are professional-grade food supplements. Consult your physician before starting any new protocol. 
+                Shipping available across United Kingdom, Northern Ireland, and Republic of Ireland.
+                <br />© 2026 MEDiVi HEALTHCARE LTD.
+            </p>
         </div>
       </footer>
     </div>
